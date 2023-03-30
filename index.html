@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    body,html {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+    }
+    #app{
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        box-sizing: border-box;
+    }
+    #app > .box_1,.box_2 {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        box-sizing: border-box;
+        border: none;
+    }
+    .box_1 {
+        background-color: black;
+        top: -100%;
+    }
+    .box_2 {
+        background-color: black;
+        bottom: -100%;
+    }
+    .box_3 {
+        width: 100px;
+        height: 100px;
+        background-color: black;
+    }
+</style>
+<body>
+<div id="app">
+<!--    <div class="box_1"></div>-->
+<!--    <div class="box_2"></div>-->
+    <div class="box_3"></div>
+</div>
+</body>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js" ></script>
+<script>
+    gsap.to('.box_3',{
+        x:0,
+        y:0,
+        width:"100%",
+        height:"100%",
+        duration:2,
+        onComplete:() => {
+            fetch('http://localhost:3000/getJson',{
+                headers:{
+                    'content-type':'application/json',
+                    "Access-Control-Allow-Origin": "*"
+                }
+            })
+                .then(res => {
+                    console.log(res);
+                    let { status, statusText } = res
+                    if (status == 200) {
+                        return res.json()
+                    }
+                })
+                .then(data => console.log(data));
+        }
+    })
+    // gsap.to('.box_1',{
+    //     x:0,
+    //     y:505,
+    //     duration:3
+    // })
+    // gsap.to('.box_2',{
+    //     x:0,
+    //     y:-505,
+    //     duration:3
+    // })
+</script>
+</html>
